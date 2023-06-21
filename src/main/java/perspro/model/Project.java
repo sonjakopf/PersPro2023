@@ -2,7 +2,16 @@ package perspro.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+
+@Entity
 public class Project {
 
 	private int projNo;
@@ -10,9 +19,12 @@ public class Project {
 	private Person projHead;
 	private Project inProj;
 	
+	
 	private List<Person> persons;
 	private List<Project> subprojects;
-
+	
+	@Id
+	@Column (name = "projno")
 	public int getProjNo() {
 		return projNo;
 	}
@@ -20,6 +32,7 @@ public class Project {
 		this.projNo = projNo;
 	}
 	
+	@Column (name = "projname")
 	public String getProjName() {
 		return projName;
 	}
@@ -27,6 +40,8 @@ public class Project {
 		this.projName = projName;
 	}
 	
+	@ManyToOne
+	@JoinColumn (name = "projhead")
 	public Person getProjHead() {
 		return projHead;
 	}
@@ -34,6 +49,8 @@ public class Project {
 		this.projHead = projHead;
 	}
 	
+	@ManyToOne
+	@JoinColumn (name = "in_proj")
 	public Project getInProj() {
 		return inProj;
 	}
@@ -41,6 +58,7 @@ public class Project {
 		this.inProj = inProj;
 	}
 	
+	@OneToMany (mappedBy = "inProj")	
 	public List<Project> getSubprojects() {
 		return subprojects;
 	}
@@ -48,6 +66,7 @@ public class Project {
 		this.subprojects = subprojects;
 	}
 	
+	@ManyToMany (mappedBy = "projects")
 	public List<Person> getPersons() {
 		return persons;
 	}

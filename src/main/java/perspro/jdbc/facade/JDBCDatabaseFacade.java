@@ -1,9 +1,10 @@
-package perspro.facade;
+package perspro.jdbc.facade;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import perspro.facade.IDatabaseFacade;
 import perspro.jdbc.broker.PersonBroker;
 import perspro.model.Department;
 import perspro.model.Person;
@@ -29,6 +30,11 @@ public class JDBCDatabaseFacade implements IDatabaseFacade {
 		if (value instanceof Project) {
 			// delegieren an DepartmentBroker analog zum PersonBroker 
 		}
+	}
+	
+	public void delete(Object value) {
+		// analog zu save(Object value) an den jeweils zuständigen Broker delegieren
+		
 	}
 	
 	public List<Person> getAllPersons() {
@@ -58,28 +64,29 @@ public class JDBCDatabaseFacade implements IDatabaseFacade {
 		
 	}
 
-
-	public void delete(Object value) {
-		// TODO Auto-generated method stub
+	public Person getPersonByID(int id) {
+		PersonBroker pb = new PersonBroker();
+		
+		Person p = null;
+		try {
+			p = pb.getById(String.valueOf(id));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return p;
 		
 	}
 
 
-	public Person getPersonByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	public Department getDepartmentByID(int id) {
-		// TODO Auto-generated method stub
+		// delegieren an DepartmentBroker, analog zum PersonBroker
 		return null;
 	}
 
 
 	public Project getProjectByID(int id) {
-		// TODO Auto-generated method stub
+		// delegieren an ProjectBroker, analog zum PersonBroker
 		return null;
 	}
-	
 }

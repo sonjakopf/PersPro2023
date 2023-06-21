@@ -1,20 +1,27 @@
 package perspro;
 
-import java.util.List;
-
 import perspro.facade.IDatabaseFacade;
-import perspro.facade.JDBCDatabaseFacade;
+import perspro.jpa.facade.JPADatabaseFacade;
 import perspro.model.Person;
 
 public class TestApplication {
-	
+
 	public static void main(String[] args) {
-		
-		IDatabaseFacade facade = new JDBCDatabaseFacade();
-		List<Person> personList = facade.getAllPersons();
-		
-		for (Person p : personList) {
-			System.out.println(p.getLname());
-		}
+
+		IDatabaseFacade facade = new JPADatabaseFacade();
+
+		// Laden von William Topman
+		Person p1 = facade.getPersonByID(1);
+
+		System.out.println(p1.getLname());
+
+		// Umbenennen von William Topman in William Bottomman
+		p1.setLname("Bottomman");
+
+		facade.save(p1);
+
+		p1 = facade.getPersonByID(1);
+
+		System.out.println(p1.getLname());
 	}
 }

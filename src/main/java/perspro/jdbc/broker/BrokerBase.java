@@ -16,6 +16,7 @@ public abstract class BrokerBase<T> {
 	
 	
 	public abstract List<T> getAll() throws SQLException;
+	public abstract T getById(String persNo) throws SQLException;
 	
 	public abstract void insert(T value) throws SQLException;
 	

@@ -51,6 +51,40 @@ public class PersonBroker extends BrokerBase<Person> {
 		}
 	}
 
+	@Override
+	public Person getById(String persNo) throws SQLException {
+		Connection c = getConnection();
+		try {
+			PreparedStatement stmt = c.prepareStatement("select * from person where persno = ?");
+			stmt.setString(1, persNo);
+			ResultSet rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				Person p = new Person();
+				
+				p.setPersNo(rs.getInt("persno"));
+				p.setFname(rs.getString("fname"));
+				p.setLname(rs.getString("lname"));
+				p.setfDate(rs.getDate("fdate").toLocalDate());
+				if (rs.getDate("ldate") != null) {
+					p.setlDate(rs.getDate("ldate").toLocalDate());
+				}			
+				Department dept = new Department();
+				dept.setDeptNo(rs.getInt("department"));
+				p.setDepartment(dept);
+				// ... und so weiter
+				
+				return p;
+			}
+						
+		} catch (SQLException e) {
+			throw(e);
+		} finally {
+			c.close();
+		}
+		return null;
+	}
+	
 	public void insert(Person value) throws SQLException {
 		Connection c = getConnection();
 		
@@ -74,4 +108,5 @@ public class PersonBroker extends BrokerBase<Person> {
 			c.close();
 		}		
 	}
+	
 }
